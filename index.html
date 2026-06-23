@@ -1,0 +1,248 @@
+
+<style>
+  .pe-root { padding: 1.5rem 0; font-size: 15px; color: var(--color-text-primary); }
+  .pe-tabs { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .pe-tab { padding: 7px 16px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; cursor: pointer; font-size: 13px; color: var(--color-text-secondary); transition: all 0.15s; }
+  .pe-tab.active { background: var(--color-background-secondary); color: var(--color-text-primary); border-color: var(--color-border-primary); font-weight: 500; }
+  .pe-tab:hover:not(.active) { background: var(--color-background-secondary); }
+  .pe-panel { display: none; }
+  .pe-panel.active { display: block; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
+  .pill-role { background: #EEEDFE; color: #3C3489; }
+  .pill-task { background: #E1F5EE; color: #085041; }
+  .pill-context { background: #FAEEDA; color: #633806; }
+  .pill-constraints { background: #FAECE7; color: #712B13; }
+  .pill-tip { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+  .section-header { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+  .section-sub { font-size: 14px; color: var(--color-text-secondary); margin-bottom: 1.25rem; line-height: 1.5; }
+  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .card-title { font-weight: 500; font-size: 14px; margin-bottom: 8px; }
+  .prompt-block { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem 1rem; font-size: 13px; line-height: 1.7; color: var(--color-text-primary); margin-bottom: 8px; }
+  .highlight-role { background: #EEEDFE; color: #3C3489; border-radius: 3px; padding: 0 3px; }
+  .highlight-task { background: #E1F5EE; color: #085041; border-radius: 3px; padding: 0 3px; }
+  .highlight-context { background: #FAEEDA; color: #633806; border-radius: 3px; padding: 0 3px; }
+  .highlight-constraints { background: #FAECE7; color: #712B13; border-radius: 3px; padding: 0 3px; }
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--color-text-secondary); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+  .tip-row { display: flex; gap: 10px; align-items: flex-start; padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .tip-row:last-child { border-bottom: none; }
+  .tip-icon { width: 28px; height: 28px; border-radius: var(--border-radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; margin-top: 1px; }
+  .tip-text { font-size: 13px; line-height: 1.6; }
+  .tip-text strong { font-weight: 500; display: block; margin-bottom: 2px; font-size: 14px; }
+  .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .compare-card { border-radius: var(--border-radius-md); padding: 0.9rem 1rem; font-size: 13px; line-height: 1.6; }
+  .bad-card { background: #FCEBEB; border: 0.5px solid #F09595; }
+  .bad-title { color: #791F1F; font-weight: 500; margin-bottom: 6px; font-size: 13px; }
+  .bad-text { color: #A32D2D; }
+  .good-card { background: #EAF3DE; border: 0.5px solid #97C459; }
+  .good-title { color: #27500A; font-weight: 500; margin-bottom: 6px; font-size: 13px; }
+  .good-text { color: #3B6D11; }
+  .ask-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 5px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; cursor: pointer; color: var(--color-text-secondary); margin-top: 8px; }
+  .ask-btn:hover { background: var(--color-background-secondary); }
+</style>
+<h2 class="sr-only">Interactive prompt engineering training guide covering the four core elements: Role, Task, Context, and Constraints.</h2>
+<div class="pe-root">
+  <div class="pe-tabs">
+    <button class="pe-tab active" onclick="showPanel('overview')">Overview</button>
+    <button class="pe-tab" onclick="showPanel('role')">Role</button>
+    <button class="pe-tab" onclick="showPanel('task')">Task</button>
+    <button class="pe-tab" onclick="showPanel('context')">Context</button>
+    <button class="pe-tab" onclick="showPanel('constraints')">Constraints</button>
+    <button class="pe-tab" onclick="showPanel('examples')">Full examples</button>
+    <button class="pe-tab" onclick="showPanel('mistakes')">Common mistakes</button>
+  </div>
+
+  <div id="panel-overview" class="pe-panel active">
+    <div class="section-header">The four elements of a strong prompt</div>
+    <p class="section-sub">Well-structured prompts consistently outperform vague ones. Think of them like a brief you'd give a new colleague — the more relevant context you provide, the better the output.</p>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#AFA9EC"></div> Role</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#5DCAA5"></div> Task</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FAC775"></div> Context</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F0997B"></div> Constraints</div>
+    </div>
+    <div class="card">
+      <div class="card-title">Example prompt with all four elements</div>
+      <div class="prompt-block">
+        <span class="highlight-role">You are a senior HR professional with experience in UK employment law.</span> <span class="highlight-task">Draft a maternity leave policy for our employee handbook.</span> <span class="highlight-context">We are a 40-person tech startup based in London. Most of our team are on permanent contracts, but we have some contractors too.</span> <span class="highlight-constraints">Keep the language plain and friendly — avoid legal jargon. Structure it with clear headings and keep it under 500 words.</span>
+      </div>
+      <div class="legend" style="margin-bottom:0">
+        <div class="legend-item"><div class="legend-dot" style="background:#AFA9EC"></div> Role</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#5DCAA5"></div> Task</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#FAC775"></div> Context</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#F0997B"></div> Constraints</div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--color-text-secondary);">You don't always need all four — a simple factual question rarely needs a Role. But for any complex or creative task, including all four dramatically improves results. Explore each element using the tabs above.</p>
+  </div>
+
+  <div id="panel-role" class="pe-panel">
+    <span class="pill pill-role">Role</span>
+    <div class="section-header">Tell the AI who it is</div>
+    <p class="section-sub">Assigning a role shapes the AI's perspective, vocabulary, and level of expertise. It's like telling a colleague which hat to wear before they tackle a task.</p>
+    <div class="card">
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#EEEDFE"><i class="ti ti-briefcase" style="color:#3C3489;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Professional role</strong>"You are an experienced employment solicitor specialising in UK law." — Sets formal, accurate, legally-aware tone.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#EEEDFE"><i class="ti ti-school" style="color:#3C3489;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Skill-based role</strong>"You are a data analyst skilled at explaining technical findings to non-technical audiences." — Shifts the communication style, not just the expertise.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#EEEDFE"><i class="ti ti-user-check" style="color:#3C3489;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Audience-aware role</strong>"You are a trainer writing materials for people who have never used software before." — Ensures the output is pitched at the right level.</div>
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid #AFA9EC;border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0">
+      <div class="card-title">Tip</div>
+      <p style="font-size:13px;line-height:1.6;margin:0;color:var(--color-text-secondary)">You can combine roles: "You are a UX designer with a background in psychology." The more specific the role, the more precisely the output reflects it. But don't over-complicate — one clear role beats three vague ones.</p>
+    </div>
+    <button class="ask-btn" onclick="sendPrompt('Give me 5 more examples of useful role prompts for a business setting ↗')"><i class="ti ti-arrow-up-right" aria-hidden="true"></i> More role examples</button>
+  </div>
+
+  <div id="panel-task" class="pe-panel">
+    <span class="pill pill-task">Task</span>
+    <div class="section-header">State clearly what needs to be done</div>
+    <p class="section-sub">The task is the core instruction. Vague tasks produce vague outputs. The more specific and action-oriented your task, the better the result.</p>
+    <div class="card">
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#E1F5EE"><i class="ti ti-pencil" style="color:#085041;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Use action verbs</strong>"Write", "Summarise", "Compare", "Create", "List", "Rewrite", "Translate", "Draft" — these signal exactly what kind of output you want.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#E1F5EE"><i class="ti ti-list-numbers" style="color:#085041;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Be specific about the deliverable</strong>"Draft a 3-paragraph introduction" is clearer than "write something about our product." Specificity reduces the chance of a mismatch.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#E1F5EE"><i class="ti ti-layers-intersect" style="color:#085041;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Split complex tasks</strong>If you need multiple things, break them into steps or separate prompts. "First summarise, then extract the three key risks" is clearer than one combined ask.</div>
+      </div>
+    </div>
+    <div class="compare-grid">
+      <div class="compare-card bad-card"><div class="bad-title">✗ Weak task</div><div class="bad-text">"Write something about our new product launch."</div></div>
+      <div class="compare-card good-card"><div class="good-title">✓ Strong task</div><div class="good-text">"Write a 200-word product announcement for our internal Slack channel."</div></div>
+    </div>
+    <button class="ask-btn" onclick="sendPrompt('What are some common task prompt mistakes and how do I fix them? ↗')"><i class="ti ti-arrow-up-right" aria-hidden="true"></i> Common task mistakes</button>
+  </div>
+
+  <div id="panel-context" class="pe-panel">
+    <span class="pill pill-context">Context</span>
+    <div class="section-header">Give the AI the background it needs</div>
+    <p class="section-sub">Context is what the AI can't guess. Without it, outputs are generic. With it, outputs feel tailored to your exact situation.</p>
+    <div class="card">
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FAEEDA"><i class="ti ti-building" style="color:#633806;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Who is the audience?</strong>"Our audience is senior managers who are not technical." — Changes vocabulary, depth of explanation, and framing completely.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FAEEDA"><i class="ti ti-info-circle" style="color:#633806;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>What's the situation?</strong>"We are preparing for a difficult client conversation after a project delay." — Gives the AI the emotional and strategic register to work within.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FAEEDA"><i class="ti ti-target" style="color:#633806;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>What's the goal?</strong>"The aim is to reassure the client while setting realistic expectations, not to apologise excessively." — This shapes tone, structure, and emphasis.</div>
+      </div>
+    </div>
+    <div class="card" style="border-left:3px solid #FAC775;border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0">
+      <div class="card-title">What to include</div>
+      <p style="font-size:13px;line-height:1.6;margin:0;color:var(--color-text-secondary)">Think: who, what, why, and where. You don't need to include everything — only what's genuinely relevant. Irrelevant context can dilute a prompt just as much as missing context.</p>
+    </div>
+  </div>
+
+  <div id="panel-constraints" class="pe-panel">
+    <span class="pill pill-constraints">Constraints</span>
+    <div class="section-header">Define the boundaries</div>
+    <p class="section-sub">Constraints prevent the AI from going off-piste. They cover format, tone, length, what to include — and crucially, what to leave out.</p>
+    <div class="card">
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FAECE7"><i class="ti ti-ruler" style="color:#712B13;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Format</strong>"Present this as a numbered list", "Use a two-column table", "Return this as a JSON object", "Write in plain paragraphs with no bullet points."</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FAECE7"><i class="ti ti-volume" style="color:#712B13;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Tone</strong>"Keep it professional but warm", "Avoid corporate jargon", "Write as if speaking to a friend", "Maintain a neutral, factual tone throughout."</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FAECE7"><i class="ti ti-letter-case" style="color:#712B13;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Length</strong>"Keep this under 150 words", "Aim for 5–7 sentences", "No more than three bullet points per section."</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FAECE7"><i class="ti ti-ban" style="color:#712B13;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Exclusions</strong>"Do not mention pricing", "Avoid making specific legal recommendations", "Don't use the phrase 'game-changer'." — Negative constraints are underused but very effective.</div>
+      </div>
+    </div>
+    <button class="ask-btn" onclick="sendPrompt('Give me 10 useful constraint phrases I can reuse across different types of prompts ↗')"><i class="ti ti-arrow-up-right" aria-hidden="true"></i> Reusable constraint phrases</button>
+  </div>
+
+  <div id="panel-examples" class="pe-panel">
+    <div class="section-header">Full worked examples</div>
+    <p class="section-sub">Three complete prompts showing all four elements in action, across different workplace scenarios.</p>
+
+    <div class="card">
+      <div class="card-title">1. Internal communications</div>
+      <div class="prompt-block">
+        <span class="highlight-role">You are an experienced internal communications manager.</span> <span class="highlight-task">Write an announcement about our upcoming office move to a new building.</span> <span class="highlight-context">We are moving from Canary Wharf to Shoreditch in January. The move is partly to reduce costs and partly to be closer to our engineering team. Some employees are concerned about the commute change.</span> <span class="highlight-constraints">Keep the tone positive and honest — acknowledge the change without being dismissive of concerns. Aim for 200 words, and end with a clear call to action (e.g. complete a commute survey).</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">2. Data analysis</div>
+      <div class="prompt-block">
+        <span class="highlight-role">You are a business analyst who specialises in presenting data clearly to non-technical stakeholders.</span> <span class="highlight-task">Summarise the key findings from this quarterly sales report and highlight any areas of concern.</span> <span class="highlight-context">The audience is our leadership team — they care most about revenue trends, customer retention, and regional performance. They will use this to make budget decisions for Q3.</span> <span class="highlight-constraints">Use plain English throughout. Structure the output as: three key highlights, one area of risk, and one recommended next step. Keep it under 250 words.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">3. Training content</div>
+      <div class="prompt-block">
+        <span class="highlight-role">You are a learning and development specialist with experience designing onboarding programmes.</span> <span class="highlight-task">Create a one-week onboarding plan for a new customer success hire.</span> <span class="highlight-context">The role involves managing existing accounts, handling escalations, and running quarterly business reviews. The new hire has general account management experience but is new to SaaS.</span> <span class="highlight-constraints">Structure the plan day by day. Each day should have a theme, two or three activities, and one key goal. Keep the tone warm and practical. Do not include specific tool tutorials — focus on knowledge and relationships.</span>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#AFA9EC"></div> Role</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#5DCAA5"></div> Task</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FAC775"></div> Context</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F0997B"></div> Constraints</div>
+    </div>
+  </div>
+
+  <div id="panel-mistakes" class="pe-panel">
+    <div class="section-header">Common mistakes to avoid</div>
+    <p class="section-sub">Most poor AI outputs trace back to one of these. Share these with your team as quick wins.</p>
+    <div class="card">
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FCEBEB"><i class="ti ti-help" style="color:#A32D2D;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Being too vague</strong>"Help me with an email" tells the AI almost nothing. Who is it to? What's the goal? What tone? Always add specifics.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FCEBEB"><i class="ti ti-stack-2" style="color:#A32D2D;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Asking for too many things at once</strong>Combining five unrelated tasks in one prompt dilutes quality. Separate distinct tasks into separate prompts.</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FCEBEB"><i class="ti ti-rotate" style="color:#A32D2D;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Accepting the first output without iteration</strong>Treat the first response as a draft. Follow up: "Make this more concise", "Change the tone to be less formal", "Add a stronger opening line."</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FCEBEB"><i class="ti ti-eye-off" style="color:#A32D2D;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Forgetting to say what NOT to do</strong>Exclusion constraints are powerful. "Don't use bullet points", "Avoid mentioning competitors by name", "Don't assume prior knowledge."</div>
+      </div>
+      <div class="tip-row">
+        <div class="tip-icon" style="background:#FCEBEB"><i class="ti ti-user-off" style="color:#A32D2D;font-size:15px" aria-hidden="true"></i></div>
+        <div class="tip-text"><strong>Omitting the audience</strong>Who is this for? A response aimed at a technical developer reads very differently from one aimed at a first-time user. Always state who will read or use the output.</div>
+      </div>
+    </div>
+    <button class="ask-btn" onclick="sendPrompt('Give me a quick-reference cheat sheet of prompt engineering dos and don\'ts ↗')"><i class="ti ti-arrow-up-right" aria-hidden="true"></i> Generate a cheat sheet</button>
+  </div>
+</div>
+
+<script>
+function showPanel(id) {
+  document.querySelectorAll('.pe-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.pe-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
