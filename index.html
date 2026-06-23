@@ -112,6 +112,7 @@
           <button class="pe-tab" onclick="showPanel('task', this)">Task</button>
           <button class="pe-tab" onclick="showPanel('context', this)">Context</button>
           <button class="pe-tab" onclick="showPanel('constraints', this)">Constraints</button>
+          <button class="pe-tab" onclick="showPanel('output', this)">Output format</button>
           <button class="pe-tab" onclick="showPanel('examples', this)">Full examples</button>
           <button class="pe-tab" onclick="showPanel('mistakes', this)">Common mistakes</button>
         </div>
@@ -233,6 +234,38 @@
               <div class="tip-icon" style="background:#FAECE7"><i class="ti ti-ban" style="color:#712B13;font-size:15px" aria-hidden="true"></i></div>
               <div class="tip-text"><strong>Exclusions</strong>"Do not mention pricing", "Avoid making specific legal recommendations", "Don't use the phrase 'game-changer'." — Negative constraints are underused but very effective.</div>
             </div>
+          </div>
+        </div>
+
+        <div id="panel-output" class="pe-panel">
+          <span class="pill" style="background:#E8F4FD;color:#0B4F7A">Output format</span>
+          <div class="section-header">Tell the AI how to return its answer</div>
+          <p class="section-sub">Specifying the output format reduces unnecessary tokens, avoids bloated file formats, and makes the result easier to use immediately — especially when feeding output into other tools or workflows.</p>
+          <div class="card">
+            <div class="tip-row">
+              <div class="tip-icon" style="background:#E8F4FD"><i class="ti ti-code" style="color:#0B4F7A;font-size:15px" aria-hidden="true"></i></div>
+              <div class="tip-text"><strong>Prefer plain text or HTML over document formats</strong>Asking for a Word or PDF response forces the AI to describe a formatted document in tokens rather than giving you usable content. Ask for HTML, markdown, or plain text instead — you can always paste or render it yourself.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-icon" style="background:#E8F4FD"><i class="ti ti-braces" style="color:#0B4F7A;font-size:15px" aria-hidden="true"></i></div>
+              <div class="tip-text"><strong>Use structured formats for machine-readable output</strong>"Return your answer as a JSON object with keys: summary, risks, next_steps." This makes output easy to parse, copy, or pipe into another tool without reformatting.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-icon" style="background:#E8F4FD"><i class="ti ti-list" style="color:#0B4F7A;font-size:15px" aria-hidden="true"></i></div>
+              <div class="tip-text"><strong>Name the structure, not just the topic</strong>"Give me a table with columns: Scenario, Benefit, Risk" is more precise than "compare the options." Named structures eliminate the AI's need to decide how to organise the output.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-icon" style="background:#E8F4FD"><i class="ti ti-scissors" style="color:#0B4F7A;font-size:15px" aria-hidden="true"></i></div>
+              <div class="tip-text"><strong>Ask only for what you'll use</strong>"Just the bullet points — no introduction or closing summary." Every sentence the AI writes that you don't need costs tokens and buries the useful content. Cut the wrapping.</div>
+            </div>
+            <div class="tip-row">
+              <div class="tip-icon" style="background:#E8F4FD"><i class="ti ti-markdown" style="color:#0B4F7A;font-size:15px" aria-hidden="true"></i></div>
+              <div class="tip-text"><strong>Match the format to where it's going</strong>If the output is going into Slack, ask for plain text. If it's going into a web page, ask for HTML. If it's going into a spreadsheet, ask for comma-separated values. Format at the source — not after the fact.</div>
+            </div>
+          </div>
+          <div class="compare-grid">
+            <div class="compare-card bad-card"><div class="bad-title">✗ Wasteful</div><div class="bad-text">"Write this up as a Word document with headings and formatting."</div></div>
+            <div class="compare-card good-card"><div class="good-title">✓ Efficient</div><div class="good-text">"Return this as HTML with h2 headings and paragraph tags — I'll paste it directly into our CMS."</div></div>
           </div>
         </div>
 
